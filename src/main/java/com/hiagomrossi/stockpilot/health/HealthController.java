@@ -12,7 +12,7 @@ public class HealthController {
     public Map<String, String> health() {
         return Map.of(
                 "status", "ok",
-                "service", "StockPilot API"
+                "com/hiagomrossi/stockpilot/product/dto/service", "StockPilot API"
         );
     }
 

@@ -1,0 +1,12 @@
+### Create product
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+
+{
+  "name": "Mouse Gamer",
+  "sku": "MOU-001",
+  "quantity": 15
+}
+
+### Get all products
+GET http://localhost:8080/api/v1/products
