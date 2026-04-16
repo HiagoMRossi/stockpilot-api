@@ -1,27 +1,28 @@
-# stockpilot-api
-Backend API for inventory management and purchase approval workflows built to showcase backend development skills.
+# StockPilot API
 
-## Goal
-This project is being built to demonstrate backend development skills for junior software developer roles in Germany.
+Backend API for inventory management and purchase approval workflows.
 
-## Planned Tech Stack
+## Current Status
+Project setup completed. Initial Spring Boot structure is running.
+
+## Tech Stack
 - Java 21
 - Spring Boot 3
+- Maven
+- Spring Web
+- Spring Security
+- Spring Data JPA
 - PostgreSQL
-- REST APIs
-- Docker
-- GitHub Actions
-- JWT Authentication
+- IntelliJ IDEA
+- GitHub Desktop
 
-## Planned Features
-- Product management
-- Supplier management
-- Warehouse management
-- Inventory tracking
-- Stock movements
-- Purchase requests
-- Approval workflow
-- Role-based access control
+## Current Endpoints
+### Health Check
+`GET /api/v1/health`
 
-## Status
-Project setup in progress.
+Example response:
+```json
+{
+  "status": "ok",
+  "service": "StockPilot API"
+}
