@@ -1,10 +1,6 @@
 # stockpilot-api
 Backend API for inventory management and purchase approval workflows built to showcase backend development skills.
 
-# StockPilot API
-
-Backend API for inventory management and purchase approval workflows.
-
 ## Goal
 This project is being built to demonstrate backend development skills for junior software developer roles in Germany.
 
