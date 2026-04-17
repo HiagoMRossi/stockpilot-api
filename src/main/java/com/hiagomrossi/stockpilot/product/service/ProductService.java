@@ -28,4 +28,11 @@ public class ProductService {
         products.add(product);
         return product;
     }
+
+    public ProductResponse findById(Long id) {
+        return products.stream()
+                .filter(product -> product.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
 }
