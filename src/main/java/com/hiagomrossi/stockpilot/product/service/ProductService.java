@@ -33,6 +33,6 @@ public class ProductService {
         return products.stream()
                 .filter(product -> product.getId().equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
     }
 }
