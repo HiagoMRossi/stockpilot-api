@@ -1,4 +1,10 @@
-### Create product
+### Health check
+GET http://localhost:8080/api/v1/health
+
+### Info
+GET http://localhost:8080/api/v1/info
+
+### Create valid product
 POST http://localhost:8080/api/v1/products
 Content-Type: application/json
 
@@ -14,8 +20,71 @@ GET http://localhost:8080/api/v1/products
 ### Get product by id
 GET http://localhost:8080/api/v1/products/1
 
-### Get product by id 2
-GET http://localhost:8080/api/v1/products/2
-
-### Get product by id not found
+### Get product not found
 GET http://localhost:8080/api/v1/products/999
+
+### Create invalid product
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "sku": "",
+  "quantity": -1
+}
+
+### Update product
+PUT http://localhost:8080/api/v1/products/1
+Content-Type: application/json
+
+{
+  "name": "Mouse Gamer RGB",
+  "sku": "MOU-001-RGB",
+  "quantity": 20
+}
+
+### Update product not found
+PUT http://localhost:8080/api/v1/products/999
+Content-Type: application/json
+
+{
+  "name": "Produto Fantasma",
+  "sku": "GHO-999",
+  "quantity": 1
+}
+
+### Update invalid product
+PUT http://localhost:8080/api/v1/products/1
+Content-Type: application/json
+
+{
+  "name": "",
+  "sku": "",
+  "quantity": -1
+}
+
+### Delete product by id
+DELETE http://localhost:8080/api/v1/products/1
+
+### Delete product not found
+DELETE http://localhost:8080/api/v1/products/999
+
+### Create first product with unique sku
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+
+{
+  "name": "Headset",
+  "sku": "HEA-888",
+  "quantity": 8
+}
+
+### Create second product with duplicate sku
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+
+{
+  "name": "Headset Pro",
+  "sku": "HEA-888",
+  "quantity": 12
+}

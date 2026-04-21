@@ -1,28 +1,50 @@
 # StockPilot API
 
-Backend API for inventory management and purchase approval workflows.
+API REST para gerenciamento de produtos e estoque, desenvolvida com Java e Spring Boot.
 
-## Current Status
-Project setup completed. Initial Spring Boot structure is running.
+## Tecnologias
 
-## Tech Stack
 - Java 21
 - Spring Boot 3
-- Maven
 - Spring Web
-- Spring Security
 - Spring Data JPA
+- Spring Security
+- Bean Validation
 - PostgreSQL
-- IntelliJ IDEA
-- GitHub Desktop
+- Maven
+- JUnit 5
+- Mockito
+- MockMvc
 
-## Current Endpoints
-### Health Check
+## Funcionalidades
+
+- Health check
+- Informações da aplicação
+- Criar produto
+- Listar produtos
+- Buscar produto por ID
+- Atualizar produto
+- Deletar produto
+- Validação de dados
+- Tratamento global de erros
+- Bloqueio de SKU duplicado
+- Testes automatizados
+
+## Endpoints
+
+### Health
 `GET /api/v1/health`
 
-Example response:
+### Info
+`GET /api/v1/info`
+
+### Criar produto
+`POST /api/v1/products`
+
+Exemplo de body:
 ```json
 {
-  "status": "ok",
-  "service": "StockPilot API"
+  "name": "Mouse Gamer",
+  "sku": "MOU-001",
+  "quantity": 15
 }
