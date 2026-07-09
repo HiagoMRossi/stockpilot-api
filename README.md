@@ -1,6 +1,10 @@
 # StockPilot API
 
+[![CI](https://github.com/HiagoMRossi/stockpilot-api/actions/workflows/ci.yml/badge.svg)](https://github.com/HiagoMRossi/stockpilot-api/actions/workflows/ci.yml)
+
 REST API for product and inventory management, built with Java 21, Spring Boot, Spring Security, Spring Data JPA, Bean Validation, PostgreSQL, and Maven.
+
+StockPilot helps small teams track products, stock levels, low-stock alerts, and inventory adjustments through a documented REST API.
 
 ## Features
 
