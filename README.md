@@ -5,12 +5,18 @@ REST API for product and inventory management, built with Java 21, Spring Boot, 
 ## Features
 
 - Health and application info endpoints
-- Create, list, find, update, and delete products
+- Create, list, search, find, update, and delete products
+- Product price and category fields
+- Per-product low-stock threshold and low-stock alert flag
+- Low-stock product listing
+- Stock adjustment endpoint for inventory movements
+- Paginated product listing with name/SKU search
 - Request validation for product payloads
 - Duplicate SKU protection
+- Flyway database migrations
 - Global exception handling
 - PostgreSQL persistence
-- Automated tests with JUnit, Mockito, and MockMvc
+- Service and controller tests with JUnit, Mockito, H2, and MockMvc
 - OpenAPI documentation with Swagger UI
 
 ## Architecture
@@ -28,10 +34,12 @@ The application follows a simple layered architecture: controllers receive HTTP 
 |---|---|---|
 | GET | `/api/v1/health` | Check API health |
 | GET | `/api/v1/info` | Read application information |
-| GET | `/api/v1/products` | List products |
+| GET | `/api/v1/products?page=0&size=10&search=mouse` | List products with pagination and optional name/SKU search |
+| GET | `/api/v1/products/low-stock` | List products where `quantity <= lowStockThreshold` |
 | GET | `/api/v1/products/{id}` | Find product by ID |
 | POST | `/api/v1/products` | Create a product |
 | PUT | `/api/v1/products/{id}` | Update a product |
+| PATCH | `/api/v1/products/{id}/stock` | Adjust product stock by a positive or negative quantity change |
 | DELETE | `/api/v1/products/{id}` | Delete a product |
 
 Example request:
@@ -40,7 +48,42 @@ Example request:
 {
   "name": "Gaming Mouse",
   "sku": "MOU-001",
-  "quantity": 15
+  "quantity": 15,
+  "price": 199.90,
+  "category": "Peripherals",
+  "lowStockThreshold": 5
+}
+```
+
+Example stock adjustment:
+
+```json
+{
+  "quantityChange": -3
+}
+```
+
+Example paginated response:
+
+```json
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Gaming Mouse",
+      "sku": "MOU-001",
+      "quantity": 4,
+      "price": 199.90,
+      "category": "Peripherals",
+      "lowStockThreshold": 5,
+      "lowStock": true
+    }
+  ],
+  "page": 0,
+  "size": 10,
+  "totalElements": 1,
+  "totalPages": 1,
+  "last": true
 }
 ```
 
@@ -59,7 +102,8 @@ After starting the application, access:
 | `DB_URL` | `jdbc:postgresql://localhost:5432/stockpilot` | PostgreSQL JDBC URL |
 | `DB_USERNAME` | `postgres` | Database username |
 | `DB_PASSWORD` | `postgres` | Database password for local development |
-| `DDL_AUTO` | `update` | Hibernate schema strategy |
+| `DDL_AUTO` | `validate` | Hibernate schema strategy |
+| `FLYWAY_ENABLED` | `true` | Enables Flyway database migrations |
 | `SHOW_SQL` | `false` | Enables SQL logging |
 | `FORMAT_SQL` | `false` | Formats SQL logs |
 
@@ -103,13 +147,15 @@ Tests use an in-memory H2 database so they can run locally and in CI without a P
 
 - PostgreSQL is used as the production-like relational database.
 - Database credentials are read from environment variables instead of being hardcoded.
-- H2 is used only for automated tests to keep CI fast and reproducible.
+- Flyway owns schema migrations and Hibernate validates the mapped schema.
+- H2 is used only for automated tests to keep CI fast and reproducible; tests execute the same Flyway migrations.
+- Product listing returns a stable pagination DTO instead of exposing Spring's internal `Page` serialization shape.
+- Low-stock alerts are calculated per product using `quantity <= lowStockThreshold`.
+- Stock adjustments are delta-based: positive values add stock and negative values remove stock, but the API rejects adjustments that would make stock negative.
 - OpenAPI is generated from the Spring MVC controllers with springdoc-openapi.
 
 ## Future Improvements
 
-- Add Flyway migrations
-- Add pagination and filtering for product listing
 - Add authentication strategy aligned with the wider ecosystem
 - Add integration tests with Testcontainers
 - Add Dockerfile for the API service

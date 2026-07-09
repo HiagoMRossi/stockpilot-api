@@ -26,6 +26,15 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(InvalidStockAdjustmentException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidStockAdjustmentException(
+            InvalidStockAdjustmentException exception
+    ) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                Map.of("error", exception.getMessage())
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException exception) {
         String errors = exception.getBindingResult()

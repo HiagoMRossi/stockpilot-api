@@ -1,90 +1,143 @@
+@baseUrl = http://localhost:8080
+
 ### Health check
-GET http://localhost:8080/api/v1/health
+GET {{baseUrl}}/api/v1/health
 
 ### Info
-GET http://localhost:8080/api/v1/info
+GET {{baseUrl}}/api/v1/info
 
 ### Create valid product
-POST http://localhost:8080/api/v1/products
+POST {{baseUrl}}/api/v1/products
 Content-Type: application/json
 
 {
   "name": "Mouse Gamer",
   "sku": "MOU-001",
-  "quantity": 15
+  "quantity": 15,
+  "price": 199.90,
+  "category": "Peripherals",
+  "lowStockThreshold": 5
 }
 
-### Get all products
-GET http://localhost:8080/api/v1/products
+### Get paginated products
+GET {{baseUrl}}/api/v1/products?page=0&size=10
+
+### Search products by name or SKU
+GET {{baseUrl}}/api/v1/products?search=mouse&page=0&size=10
+
+### Get low-stock products
+GET {{baseUrl}}/api/v1/products/low-stock
 
 ### Get product by id
-GET http://localhost:8080/api/v1/products/1
+GET {{baseUrl}}/api/v1/products/1
 
 ### Get product not found
-GET http://localhost:8080/api/v1/products/999
+GET {{baseUrl}}/api/v1/products/999
 
 ### Create invalid product
-POST http://localhost:8080/api/v1/products
+POST {{baseUrl}}/api/v1/products
 Content-Type: application/json
 
 {
   "name": "",
   "sku": "",
-  "quantity": -1
+  "quantity": -1,
+  "price": -1,
+  "category": "",
+  "lowStockThreshold": -1
 }
 
 ### Update product
-PUT http://localhost:8080/api/v1/products/1
+PUT {{baseUrl}}/api/v1/products/1
 Content-Type: application/json
 
 {
   "name": "Mouse Gamer RGB",
   "sku": "MOU-001-RGB",
-  "quantity": 20
+  "quantity": 20,
+  "price": 249.90,
+  "category": "Peripherals",
+  "lowStockThreshold": 4
+}
+
+### Decrease stock
+PATCH {{baseUrl}}/api/v1/products/1/stock
+Content-Type: application/json
+
+{
+  "quantityChange": -3
+}
+
+### Increase stock
+PATCH {{baseUrl}}/api/v1/products/1/stock
+Content-Type: application/json
+
+{
+  "quantityChange": 10
+}
+
+### Invalid stock adjustment
+PATCH {{baseUrl}}/api/v1/products/1/stock
+Content-Type: application/json
+
+{
+  "quantityChange": -999
 }
 
 ### Update product not found
-PUT http://localhost:8080/api/v1/products/999
+PUT {{baseUrl}}/api/v1/products/999
 Content-Type: application/json
 
 {
   "name": "Produto Fantasma",
   "sku": "GHO-999",
-  "quantity": 1
+  "quantity": 1,
+  "price": 10.00,
+  "category": "Other",
+  "lowStockThreshold": 1
 }
 
 ### Update invalid product
-PUT http://localhost:8080/api/v1/products/1
+PUT {{baseUrl}}/api/v1/products/1
 Content-Type: application/json
 
 {
   "name": "",
   "sku": "",
-  "quantity": -1
+  "quantity": -1,
+  "price": -1,
+  "category": "",
+  "lowStockThreshold": -1
 }
 
 ### Delete product by id
-DELETE http://localhost:8080/api/v1/products/1
+DELETE {{baseUrl}}/api/v1/products/1
 
 ### Delete product not found
-DELETE http://localhost:8080/api/v1/products/999
+DELETE {{baseUrl}}/api/v1/products/999
 
 ### Create first product with unique sku
-POST http://localhost:8080/api/v1/products
+POST {{baseUrl}}/api/v1/products
 Content-Type: application/json
 
 {
   "name": "Headset",
   "sku": "HEA-888",
-  "quantity": 8
+  "quantity": 8,
+  "price": 349.90,
+  "category": "Audio",
+  "lowStockThreshold": 3
 }
 
 ### Create second product with duplicate sku
-POST http://localhost:8080/api/v1/products
+POST {{baseUrl}}/api/v1/products
 Content-Type: application/json
 
 {
   "name": "Headset Pro",
   "sku": "HEA-888",
-  "quantity": 12
+  "quantity": 12,
+  "price": 499.90,
+  "category": "Audio",
+  "lowStockThreshold": 3
 }
